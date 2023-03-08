@@ -1,5 +1,5 @@
 import numpy as np
-import matplotlib.pyplot as plt
+import matplotlib.pyplot as plt 
 import h5py
 
 
@@ -85,11 +85,11 @@ def sigmoid_backward(dA, cache):
 
 
 def load_data():
-    train_dataset = h5py.File('datasets/train_catvnoncat.h5', "r")
+    train_dataset = h5py.File('/Users/yantavares/Cursos/Coursera/DeepLearningAI/Week4/release/W4A2/datasets/train_catvnoncat.h5', "r")
     train_set_x_orig = np.array(train_dataset["train_set_x"][:]) # your train set features
     train_set_y_orig = np.array(train_dataset["train_set_y"][:]) # your train set labels
 
-    test_dataset = h5py.File('datasets/test_catvnoncat.h5', "r")
+    test_dataset = h5py.File('/Users/yantavares/Cursos/Coursera/DeepLearningAI/Week4/release/W4A2/datasets/test_catvnoncat.h5', "r")
     test_set_x_orig = np.array(test_dataset["test_set_x"][:]) # your test set features
     test_set_y_orig = np.array(test_dataset["test_set_y"][:]) # your test set labels
 
@@ -412,7 +412,7 @@ def predict(X, y, parameters):
     #print results
     #print ("predictions: " + str(p))
     #print ("true labels: " + str(y))
-    print("Accuracy: "  + str(np.sum((p == y)/m)))
+    # print("Accuracy: "  + str(np.sum((p == y)/m)))
         
     return p
 
@@ -425,12 +425,12 @@ def print_mislabeled_images(classes, X, y, p):
     """
     a = p + y
     mislabeled_indices = np.asarray(np.where(a == 1))
-    plt.rcParams['figure.figsize'] = (40.0, 40.0) # set default size of plots
+    #plt .rcParams['figure.figsize'] = (40.0, 40.0) # set default size of plots
     num_images = len(mislabeled_indices[0])
     for i in range(num_images):
         index = mislabeled_indices[1][i]
         
-        plt.subplot(2, num_images, i + 1)
-        plt.imshow(X[:,index].reshape(64,64,3), interpolation='nearest')
-        plt.axis('off')
-        plt.title("Prediction: " + classes[int(p[0,index])].decode("utf-8") + " \n Class: " + classes[y[0,index]].decode("utf-8"))
+        #plt .subplot(2, num_images, i + 1)
+        #plt .imshow(X[:,index].reshape(64,64,3), interpolation='nearest')
+        #plt .axis('off')
+        #plt .title("Prediction: " + classes[int(p[0,index])].decode("utf-8") + " \n Class: " + classes[y[0,index]].decode("utf-8"))

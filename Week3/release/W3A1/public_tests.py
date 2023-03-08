@@ -262,10 +262,10 @@ def nn_model_test(target):
     t_X, t_Y = nn_model_test_case()
     parameters = target(t_X, t_Y, n_h, num_iterations=10000, print_cost=True)
 
-    print("W1 = " + str(parameters["W1"]))
-    print("b1 = " + str(parameters["b1"]))
-    print("W2 = " + str(parameters["W2"]))
-    print("b2 = " + str(parameters["b2"]))
+    # print("W1 = " + str(parameters["W1"]))
+    # print("b1 = " + str(parameters["b1"]))
+    # print("W2 = " + str(parameters["W2"]))
+    # print("b2 = " + str(parameters["b2"]))
     
     expected_output = {'W1': np.array([[ 0.56305445, -1.03925886],
                                    [ 0.7345426 , -1.36286875],

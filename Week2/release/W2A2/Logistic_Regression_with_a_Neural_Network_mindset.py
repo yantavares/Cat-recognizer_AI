@@ -1,66 +1,4 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# # Logistic Regression with a Neural Network mindset
-# 
-# Welcome to your first (required) programming assignment! You will build a logistic regression classifier to recognize  cats. This assignment will step you through how to do this with a Neural Network mindset, and will also hone your intuitions about deep learning.
-# 
-# **Instructions:**
-# - Do not use loops (for/while) in your code, unless the instructions explicitly ask you to do so.
-# - Use `np.dot(X,Y)` to calculate dot products.
-# 
-# **You will learn to:**
-# - Build the general architecture of a learning algorithm, including:
-#     - Initializing parameters
-#     - Calculating the cost function and its gradient
-#     - Using an optimization algorithm (gradient descent) 
-# - Gather all three functions above into a main model function, in the right order.
-# 
-# ## Important Note on Submission to the AutoGrader
-# 
-# Before submitting your assignment to the AutoGrader, please make sure you are not doing the following:
-# 
-# 1. You have not added any _extra_ `print` statement(s) in the assignment.
-# 2. You have not added any _extra_ code cell(s) in the assignment.
-# 3. You have not changed any of the function parameters.
-# 4. You are not using any global variables inside your graded exercises. Unless specifically instructed to do so, please refrain from it and use the local variables instead.
-# 5. You are not changing the assignment code where it is not required, like creating _extra_ variables.
-# 
-# If you do any of the following, you will get something like, `Grader not found` (or similarly unexpected) error upon submitting your assignment. Before asking for help/debugging the errors in your assignment, check for these first. If this is the case, and you don't remember the changes you have made, you can get a fresh copy of the assignment by following these [instructions](https://www.coursera.org/learn/neural-networks-deep-learning/supplement/iLwon/h-ow-to-refresh-your-workspace).
-
-# ## Table of Contents
-# - [1 - Packages](#1)
-# - [2 - Overview of the Problem set](#2)
-#     - [Exercise 1](#ex-1)
-#     - [Exercise 2](#ex-2)
-# - [3 - General Architecture of the learning algorithm](#3)
-# - [4 - Building the parts of our algorithm](#4)
-#     - [4.1 - Helper functions](#4-1)
-#         - [Exercise 3 - sigmoid](#ex-3)
-#     - [4.2 - Initializing parameters](#4-2)
-#         - [Exercise 4 - initialize_with_zeros](#ex-4)
-#     - [4.3 - Forward and Backward propagation](#4-3)
-#         - [Exercise 5 - propagate](#ex-5)
-#     - [4.4 - Optimization](#4-4)
-#         - [Exercise 6 - optimize](#ex-6)
-#         - [Exercise 7 - predict](#ex-7)
-# - [5 - Merge all functions into a model](#5)
-#     - [Exercise 8 - model](#ex-8)
-# - [6 - Further analysis (optional/ungraded exercise)](#6)
-# - [7 - Test with your own image (optional/ungraded exercise)](#7)
-
-# <a name='1'></a>
-# ## 1 - Packages ##
-# 
-# First, let's run the cell below to import all the packages that you will need during this assignment. 
-# - [numpy](https://numpy.org/doc/1.20/) is the fundamental package for scientific computing with Python.
-# - [h5py](http://www.h5py.org) is a common package to interact with a dataset that is stored on an H5 file.
-# - [matplotlib](http://matplotlib.org) is a famous library to plot graphs in Python.
-# - [PIL](https://pillow.readthedocs.io/en/stable/) and [scipy](https://www.scipy.org/) are used here to test your model with your own picture at the end.
-
-# In[1]:
-
-
+import time
 import numpy as np
 import copy
 import matplotlib.pyplot as plt
@@ -70,11 +8,6 @@ from PIL import Image
 from scipy import ndimage
 from lr_utils import load_dataset
 from public_tests import *
-
-get_ipython().run_line_magic('matplotlib', 'inline')
-get_ipython().run_line_magic('load_ext', 'autoreload')
-get_ipython().run_line_magic('autoreload', '2')
-
 
 # <a name='2'></a>
 # ## 2 - Overview of the Problem set ##
@@ -104,8 +37,8 @@ train_set_x_orig, train_set_y, test_set_x_orig, test_set_y, classes = load_datas
 
 # Example of a picture
 index = 25
-plt.imshow(train_set_x_orig[index])
-print ("y = " + str(train_set_y[:, index]) + ", it's a '" + classes[np.squeeze(train_set_y[:, index])].decode("utf-8") +  "' picture.")
+# plt.imshow(train_set_x_orig[index])
+# print ("y = " + str(train_set_y[:, index]) + ", it's a '" + classes[np.squeeze(train_set_y[:, index])].decode("utf-8") +  "' picture.")
 
 
 # Many software bugs in deep learning come from having matrix/vector dimensions that don't fit. If you can keep your matrix/vector dimensions straight you will go a long way toward eliminating many bugs. 
@@ -128,14 +61,14 @@ m_test = test_set_x_orig.shape[0]
 num_px = train_set_x_orig.shape[1]
 # YOUR CODE ENDS HERE
 
-print ("Number of training examples: m_train = " + str(m_train))
-print ("Number of testing examples: m_test = " + str(m_test))
-print ("Height/Width of each image: num_px = " + str(num_px))
-print ("Each image is of size: (" + str(num_px) + ", " + str(num_px) + ", 3)")
-print ("train_set_x shape: " + str(train_set_x_orig.shape))
-print ("train_set_y shape: " + str(train_set_y.shape))
-print ("test_set_x shape: " + str(test_set_x_orig.shape))
-print ("test_set_y shape: " + str(test_set_y.shape))
+# print ("Number of training examples: m_train = " + str(m_train))
+# print ("Number of testing examples: m_test = " + str(m_test))
+# print ("Height/Width of each image: num_px = " + str(num_px))
+# print ("Each image is of size: (" + str(num_px) + ", " + str(num_px) + ", 3)")
+# print ("train_set_x shape: " + str(train_set_x_orig.shape))
+# print ("train_set_y shape: " + str(train_set_y.shape))
+# print ("test_set_x shape: " + str(test_set_x_orig.shape))
+# print ("test_set_y shape: " + str(test_set_y.shape))
 
 
 # **Expected Output for m_train, m_test and num_px**: 
@@ -183,10 +116,10 @@ test_set_x_flatten = test_set_x_orig.reshape(test_set_x_orig.shape[0],-1).T
 assert np.alltrue(train_set_x_flatten[0:10, 1] == [196, 192, 190, 193, 186, 182, 188, 179, 174, 213]), "Wrong solution. Use (X.shape[0], -1).T."
 assert np.alltrue(test_set_x_flatten[0:10, 1] == [115, 110, 111, 137, 129, 129, 155, 146, 145, 159]), "Wrong solution. Use (X.shape[0], -1).T."
 
-print ("train_set_x_flatten shape: " + str(train_set_x_flatten.shape))
-print ("train_set_y shape: " + str(train_set_y.shape))
-print ("test_set_x_flatten shape: " + str(test_set_x_flatten.shape))
-print ("test_set_y shape: " + str(test_set_y.shape))
+# print ("train_set_x_flatten shape: " + str(train_set_x_flatten.shape))
+# print ("train_set_y shape: " + str(train_set_y.shape))
+# print ("test_set_x_flatten shape: " + str(test_set_x_flatten.shape))
+# print ("test_set_y shape: " + str(test_set_y.shape))
 
 
 # **Expected Output**: 
@@ -309,7 +242,7 @@ def sigmoid(z):
 # In[8]:
 
 
-print ("sigmoid([0, 2]) = " + str(sigmoid(np.array([0,2]))))
+# print ("sigmoid([0, 2]) = " + str(sigmoid(np.array([0,2]))))
 
 sigmoid_test(sigmoid)
 
@@ -319,7 +252,7 @@ sigmoid_test(sigmoid)
 
 x = np.array([0.5, 0, 2.0])
 output = sigmoid(x)
-print(output)
+# print(output)
 
 
 # <a name='4-2'></a>
@@ -364,8 +297,8 @@ dim = 2
 w, b = initialize_with_zeros(dim)
 
 assert type(b) == float
-print ("w = " + str(w))
-print ("b = " + str(b))
+# print ("w = " + str(w))
+# print ("b = " + str(b))
 
 initialize_with_zeros_test_1(initialize_with_zeros)
 initialize_with_zeros_test_2(initialize_with_zeros)
@@ -461,9 +394,9 @@ assert grads["dw"].shape == (2, 1)
 assert type(grads["db"]) == np.float64
 
 
-print ("dw = " + str(grads["dw"]))
-print ("db = " + str(grads["db"]))
-print ("cost = " + str(cost))
+# print ("dw = " + str(grads["dw"]))
+# print ("db = " + str(grads["db"]))
+# print ("cost = " + str(cost))
 
 propagate_test(propagate)
 
@@ -547,8 +480,8 @@ def optimize(w, b, X, Y, num_iterations=100, learning_rate=0.009, print_cost=Fal
             costs.append(cost)
         
             # Print the cost every 100 training iterations
-            if print_cost:
-                print ("Cost after iteration %i: %f" %(i, cost))
+            # if print_cost:
+                # print ("Cost after iteration %i: %f" %(i, cost))
     
     params = {"w": w,
               "b": b}
@@ -564,11 +497,11 @@ def optimize(w, b, X, Y, num_iterations=100, learning_rate=0.009, print_cost=Fal
 
 params, grads, costs = optimize(w, b, X, Y, num_iterations=100, learning_rate=0.009, print_cost=False)
 
-print ("w = " + str(params["w"]))
-print ("b = " + str(params["b"]))
-print ("dw = " + str(grads["dw"]))
-print ("db = " + str(grads["db"]))
-print("Costs = " + str(costs))
+# print ("w = " + str(params["w"]))
+# print ("b = " + str(params["b"]))
+# print ("dw = " + str(grads["dw"]))
+# print ("db = " + str(grads["db"]))
+# print("Costs = " + str(costs))
 
 optimize_test(optimize)
 
@@ -634,7 +567,7 @@ def predict(w, b, X):
 w = np.array([[0.1124579], [0.23106775]])
 b = -0.3
 X = np.array([[1., -1.1, -3.2],[1.2, 2., 0.1]])
-print ("predictions = " + str(predict(w, b, X)))
+# print("predictions = " + str(predict(w, b, X)))
 
 predict_test(predict)
 
@@ -713,9 +646,9 @@ def model(X_train, Y_train, X_test, Y_test, num_iterations=2000, learning_rate=0
     # YOUR CODE ENDS HERE
 
     # Print train/test Errors
-    if print_cost:
-        print("train accuracy: {} %".format(100 - np.mean(np.abs(Y_prediction_train - Y_train)) * 100))
-        print("test accuracy: {} %".format(100 - np.mean(np.abs(Y_prediction_test - Y_test)) * 100))
+    # if print_cost:
+        # print("train accuracy: {} %".format(100 - np.mean(np.abs(Y_prediction_train - Y_train)) * 100))
+        # print("test accuracy: {} %".format(100 - np.mean(np.abs(Y_prediction_test - Y_test)) * 100))
 
     
     d = {"costs": costs,
@@ -754,8 +687,8 @@ logistic_regression_model = model(train_set_x, train_set_y, test_set_x, test_set
 
 # Example of a picture that was wrongly classified.
 index = 1
-plt.imshow(test_set_x[:, index].reshape((num_px, num_px, 3)))
-print ("y = " + str(test_set_y[0,index]) + ", you predicted that it is a \"" + classes[int(logistic_regression_model['Y_prediction_test'][0,index])].decode("utf-8") +  "\" picture.")
+# plt.imshow(test_set_x[:, index].reshape((num_px, num_px, 3)))
+# print ("y = " + str(test_set_y[0,index]) + ", you predicted that it is a \"" + classes[int(logistic_regression_model['Y_prediction_test'][0,index])].decode("utf-8") +  "\" picture.")
 
 
 # Let's also plot the cost function and the gradients.
@@ -765,11 +698,11 @@ print ("y = " + str(test_set_y[0,index]) + ", you predicted that it is a \"" + c
 
 # Plot learning curve (with costs)
 costs = np.squeeze(logistic_regression_model['costs'])
-plt.plot(costs)
-plt.ylabel('cost')
-plt.xlabel('iterations (per hundreds)')
-plt.title("Learning rate =" + str(logistic_regression_model["learning_rate"]))
-plt.show()
+# plt.plot(costs)
+# plt.ylabel('cost')
+# plt.xlabel('iterations (per hundreds)')
+# plt.title("Learning rate =" + str(logistic_regression_model["learning_rate"]))
+# plt.show()
 
 
 # **Interpretation**:
@@ -794,20 +727,20 @@ learning_rates = [0.01, 0.001, 0.0001]
 models = {}
 
 for lr in learning_rates:
-    print ("Training a model with learning rate: " + str(lr))
+    # print ("Training a model with learning rate: " + str(lr))
     models[str(lr)] = model(train_set_x, train_set_y, test_set_x, test_set_y, num_iterations=1500, learning_rate=lr, print_cost=False)
-    print ('\n' + "-------------------------------------------------------" + '\n')
+    # print ('\n' + "-------------------------------------------------------" + '\n')
 
-for lr in learning_rates:
-    plt.plot(np.squeeze(models[str(lr)]["costs"]), label=str(models[str(lr)]["learning_rate"]))
+# for lr in learning_rates:
+    # plt.plot(np.squeeze(models[str(lr)]["costs"]), label=str(models[str(lr)]["learning_rate"]))
 
-plt.ylabel('cost')
-plt.xlabel('iterations (hundreds)')
+# plt.ylabel('cost')
+# plt.xlabel('iterations (hundreds)')
 
-legend = plt.legend(loc='upper center', shadow=True)
-frame = legend.get_frame()
-frame.set_facecolor('0.90')
-plt.show()
+# legend = # plt.legend(loc='upper center', shadow=True)
+# frame = legend.get_frame()
+# frame.set_facecolor('0.90')
+# plt.show()
 
 
 # **Interpretation**: 
@@ -835,12 +768,15 @@ plt.show()
 my_image = "foto_legal.jpeg"   
 
 # We preprocess the image to fit your algorithm.
-fname = "images/" + my_image
+fname = "/Users/yantavares/Cursos/Coursera/DeepLearningAI/Week2/release/W2A2/images/" + my_image
 image = np.array(Image.open(fname).resize((num_px, num_px)))
+image2 = image / 255.
+image2 = image.reshape((1, num_px * num_px * 3)).T
+my_predicted_image = predict(logistic_regression_model["w"], logistic_regression_model["b"], image2)
+
 plt.imshow(image)
-image = image / 255.
-image = image.reshape((1, num_px * num_px * 3)).T
-my_predicted_image = predict(logistic_regression_model["w"], logistic_regression_model["b"], image)
+plt.title("y = " + str(np.squeeze(my_predicted_image)) + ", it is a \"" + classes[int(np.squeeze(my_predicted_image)),].decode("utf-8") +  "\" picture.")
+plt.show()
 
 print("y = " + str(np.squeeze(my_predicted_image)) + ", it is a \"" + classes[int(np.squeeze(my_predicted_image)),].decode("utf-8") +  "\" picture.")
 

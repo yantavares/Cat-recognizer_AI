@@ -1,61 +1,3 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# # Deep Neural Network for Image Classification: Application
-# 
-# By the time you complete this notebook, you will have finished the last programming assignment of Week 4, and also the last programming assignment of Course 1! Go you! 
-# 
-# To build your cat/not-a-cat classifier, you'll use the functions from the previous assignment to build a deep network. Hopefully, you'll see an improvement in accuracy over your previous logistic regression implementation.  
-# 
-# **After this assignment you will be able to:**
-# 
-# - Build and train a deep L-layer neural network, and apply it to supervised learning
-# 
-# Let's get started!
-# 
-# ## Important Note on Submission to the AutoGrader
-# 
-# Before submitting your assignment to the AutoGrader, please make sure you are not doing the following:
-# 
-# 1. You have not added any _extra_ `print` statement(s) in the assignment.
-# 2. You have not added any _extra_ code cell(s) in the assignment.
-# 3. You have not changed any of the function parameters.
-# 4. You are not using any global variables inside your graded exercises. Unless specifically instructed to do so, please refrain from it and use the local variables instead.
-# 5. You are not changing the assignment code where it is not required, like creating _extra_ variables.
-# 
-# If you do any of the following, you will get something like, `Grader not found` (or similarly unexpected) error upon submitting your assignment. Before asking for help/debugging the errors in your assignment, check for these first. If this is the case, and you don't remember the changes you have made, you can get a fresh copy of the assignment by following these [instructions](https://www.coursera.org/learn/neural-networks-deep-learning/supplement/iLwon/h-ow-to-refresh-your-workspace).
-
-# ## Table of Contents
-# - [1 - Packages](#1)
-# - [2 - Load and Process the Dataset](#2)
-# - [3 - Model Architecture](#3)
-#     - [3.1 - 2-layer Neural Network](#3-1)
-#     - [3.2 - L-layer Deep Neural Network](#3-2)
-#     - [3.3 - General Methodology](#3-3)
-# - [4 - Two-layer Neural Network](#4)
-#     - [Exercise 1 - two_layer_model](#ex-1)
-#     - [4.1 - Train the model](#4-1)
-# - [5 - L-layer Neural Network](#5)
-#     - [Exercise 2 - L_layer_model](#ex-2)
-#     - [5.1 - Train the model](#5-1)
-# - [6 - Results Analysis](#6)
-# - [7 - Test with your own image (optional/ungraded exercise)](#7)
-
-# <a name='1'></a>
-# ## 1 - Packages
-
-# Begin by importing all the packages you'll need during this assignment. 
-# 
-# - [numpy](https://www.numpy.org/) is the fundamental package for scientific computing with Python.
-# - [matplotlib](http://matplotlib.org) is a library to plot graphs in Python.
-# - [h5py](http://www.h5py.org) is a common package to interact with a dataset that is stored on an H5 file.
-# - [PIL](http://www.pythonware.com/products/pil/) and [scipy](https://www.scipy.org/) are used here to test your model with your own picture at the end.
-# - `dnn_app_utils` provides the functions implemented in the "Building your Deep Neural Network: Step by Step" assignment to this notebook.
-# - `np.random.seed(1)` is used to keep all the random function calls consistent. It helps grade your work - so please don't change it! 
-
-# In[4]:
-
-
 import time
 import numpy as np
 import h5py
@@ -66,13 +8,7 @@ from scipy import ndimage
 from dnn_app_utils_v3 import *
 from public_tests import *
 
-get_ipython().run_line_magic('matplotlib', 'inline')
-plt.rcParams['figure.figsize'] = (5.0, 4.0) # set default size of plots
-plt.rcParams['image.interpolation'] = 'nearest'
-plt.rcParams['image.cmap'] = 'gray'
 
-get_ipython().run_line_magic('load_ext', 'autoreload')
-get_ipython().run_line_magic('autoreload', '2')
 
 np.random.seed(1)
 
@@ -101,9 +37,9 @@ train_x_orig, train_y, test_x_orig, test_y, classes = load_data()
 
 
 # Example of a picture
-index = 10
-plt.imshow(train_x_orig[index])
-print ("y = " + str(train_y[0,index]) + ". It's a " + classes[train_y[0,index]].decode("utf-8") +  " picture.")
+# index = 10
+# plt.imshow(train_x_orig[index])
+# print ("y = " + str(train_y[0,index]) + ". It's a " + classes[train_y[0,index]].decode("utf-8") +  " picture.")
 
 
 # In[7]:
@@ -114,13 +50,13 @@ m_train = train_x_orig.shape[0]
 num_px = train_x_orig.shape[1]
 m_test = test_x_orig.shape[0]
 
-print ("Number of training examples: " + str(m_train))
-print ("Number of testing examples: " + str(m_test))
-print ("Each image is of size: (" + str(num_px) + ", " + str(num_px) + ", 3)")
-print ("train_x_orig shape: " + str(train_x_orig.shape))
-print ("train_y shape: " + str(train_y.shape))
-print ("test_x_orig shape: " + str(test_x_orig.shape))
-print ("test_y shape: " + str(test_y.shape))
+# print ("Number of training examples: " + str(m_train))
+# print ("Number of testing examples: " + str(m_test))
+# print ("Each image is of size: (" + str(num_px) + ", " + str(num_px) + ", 3)")
+# print ("train_x_orig shape: " + str(train_x_orig.shape))
+# print ("train_y shape: " + str(train_y.shape))
+# print ("test_x_orig shape: " + str(test_x_orig.shape))
+# print ("test_y shape: " + str(test_y.shape))
 
 
 # As usual, you reshape and standardize the images before feeding them to the network. The code is given in the cell below.
@@ -139,8 +75,8 @@ test_x_flatten = test_x_orig.reshape(test_x_orig.shape[0], -1).T
 train_x = train_x_flatten/255.
 test_x = test_x_flatten/255.
 
-print ("train_x's shape: " + str(train_x.shape))
-print ("test_x's shape: " + str(test_x.shape))
+# print ("train_x's shape: " + str(train_x.shape))
+# print ("test_x's shape: " + str(test_x.shape))
 
 
 # **Note**:
@@ -340,12 +276,11 @@ def two_layer_model(X, Y, layers_dims, learning_rate = 0.0075, num_iterations = 
 
     return parameters, costs
 
-def plot_costs(costs, learning_rate=0.0075):
-    plt.plot(np.squeeze(costs))
-    plt.ylabel('cost')
-    plt.xlabel('iterations (per hundreds)')
-    plt.title("Learning rate =" + str(learning_rate))
-    plt.show()
+# def plot_costs(costs, learning_rate=0.0075):
+#     plt.plot(np.squeeze(costs))
+#     plt.ylabel('cost')
+#     plt.xlabel('iterations (per hundreds)')
+#     plt.title("Learning rate =" + str(learning_rate))
 
 
 # In[11]:
@@ -353,7 +288,7 @@ def plot_costs(costs, learning_rate=0.0075):
 
 parameters, costs = two_layer_model(train_x, train_y, layers_dims = (n_x, n_h, n_y), num_iterations = 2, print_cost=False)
 
-print("Cost after first iteration: " + str(costs[0]))
+# print("Cost after first iteration: " + str(costs[0]))
 
 two_layer_model_test(two_layer_model)
 
@@ -377,7 +312,7 @@ two_layer_model_test(two_layer_model)
 
 
 parameters, costs = two_layer_model(train_x, train_y, layers_dims = (n_x, n_h, n_y), num_iterations = 2500, print_cost=True)
-plot_costs(costs, learning_rate)
+# plot_costs(costs, learning_rate)
 
 
 # **Expected Output**:
@@ -570,7 +505,7 @@ def update_parameters(parameters, grads, learning_rate):
 
 parameters, costs = L_layer_model(train_x, train_y, layers_dims, num_iterations = 1, print_cost = False)
 
-print("Cost after first iteration: " + str(costs[0]))
+# print("Cost after first iteration: " + str(costs[0]))
 
 L_layer_model_test(L_layer_model)
 
@@ -691,17 +626,20 @@ print_mislabeled_images(classes, test_x, test_y, pred_test)
 
 
 ## START CODE HERE ##
-my_image = "rafael2.jpeg" # change this to the name of your image file 
+my_image = "guigo.jpeg" # change this to the name of your image file 
 my_label_y = [0] # the true class of your image (1 -> cat, 0 -> non-cat)
 ## END CODE HERE ##
 
-fname = "images/" + my_image
+fname = "/Users/yantavares/Cursos/Coursera/DeepLearningAI/Week4/release/W4A2/images/" + my_image
 image = np.array(Image.open(fname).resize((num_px, num_px)))
-plt.imshow(image)
-image = image / 255.
-image = image.reshape((1, num_px * num_px * 3)).T
 
-my_predicted_image = predict(image, my_label_y, parameters)
+image2 = image / 255.
+image2 = image.reshape((1, num_px * num_px * 3)).T
+my_predicted_image = predict(image2, my_label_y, parameters)
+
+plt.imshow(image)
+plt.title("y = " + str(np.squeeze(my_predicted_image)) + ", it is a \"" + classes[int(np.squeeze(my_predicted_image)),].decode("utf-8") +  "\" picture.")
+plt.show()
 
 
 print ("y = " + str(np.squeeze(my_predicted_image)) + ", it is a \"" + classes[int(np.squeeze(my_predicted_image)),].decode("utf-8") +  "\" picture.")

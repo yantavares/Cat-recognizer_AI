@@ -1,82 +1,3 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# # Building your Deep Neural Network: Step by Step
-# 
-# Welcome to your week 4 assignment (part 1 of 2)! Previously you trained a 2-layer Neural Network with a single hidden layer. This week, you will build a deep neural network with as many layers as you want!
-# 
-# - In this notebook, you'll implement all the functions required to build a deep neural network.
-# - For the next assignment, you'll use these functions to build a deep neural network for image classification.
-# 
-# **By the end of this assignment, you'll be able to:**
-# 
-# - Use non-linear units like ReLU to improve your model
-# - Build a deeper neural network (with more than 1 hidden layer)
-# - Implement an easy-to-use neural network class
-# 
-# **Notation**:
-# - Superscript $[l]$ denotes a quantity associated with the $l^{th}$ layer. 
-#     - Example: $a^{[L]}$ is the $L^{th}$ layer activation. $W^{[L]}$ and $b^{[L]}$ are the $L^{th}$ layer parameters.
-# - Superscript $(i)$ denotes a quantity associated with the $i^{th}$ example. 
-#     - Example: $x^{(i)}$ is the $i^{th}$ training example.
-# - Lowerscript $i$ denotes the $i^{th}$ entry of a vector.
-#     - Example: $a^{[l]}_i$ denotes the $i^{th}$ entry of the $l^{th}$ layer's activations).
-# 
-# Let's get started!
-# 
-# ## Important Note on Submission to the AutoGrader
-# 
-# Before submitting your assignment to the AutoGrader, please make sure you are not doing the following:
-# 
-# 1. You have not added any _extra_ `print` statement(s) in the assignment.
-# 2. You have not added any _extra_ code cell(s) in the assignment.
-# 3. You have not changed any of the function parameters.
-# 4. You are not using any global variables inside your graded exercises. Unless specifically instructed to do so, please refrain from it and use the local variables instead.
-# 5. You are not changing the assignment code where it is not required, like creating _extra_ variables.
-# 
-# If you do any of the following, you will get something like, `Grader not found` (or similarly unexpected) error upon submitting your assignment. Before asking for help/debugging the errors in your assignment, check for these first. If this is the case, and you don't remember the changes you have made, you can get a fresh copy of the assignment by following these [instructions](https://www.coursera.org/learn/neural-networks-deep-learning/supplement/iLwon/h-ow-to-refresh-your-workspace).
-
-# ## Table of Contents
-# - [1 - Packages](#1)
-# - [2 - Outline](#2)
-# - [3 - Initialization](#3)
-#     - [3.1 - 2-layer Neural Network](#3-1)
-#         - [Exercise 1 - initialize_parameters](#ex-1)
-#     - [3.2 - L-layer Neural Network](#3-2)
-#         - [Exercise 2 - initialize_parameters_deep](#ex-2)
-# - [4 - Forward Propagation Module](#4)
-#     - [4.1 - Linear Forward](#4-1)
-#         - [Exercise 3 - linear_forward](#ex-3)
-#     - [4.2 - Linear-Activation Forward](#4-2)
-#         - [Exercise 4 - linear_activation_forward](#ex-4)
-#     - [4.3 - L-Layer Model](#4-3)
-#         - [Exercise 5 - L_model_forward](#ex-5)
-# - [5 - Cost Function](#5)
-#     - [Exercise 6 - compute_cost](#ex-6)
-# - [6 - Backward Propagation Module](#6)
-#     - [6.1 - Linear Backward](#6-1)
-#         - [Exercise 7 - linear_backward](#ex-7)
-#     - [6.2 - Linear-Activation Backward](#6-2)
-#         - [Exercise 8 - linear_activation_backward](#ex-8)
-#     - [6.3 - L-Model Backward](#6-3)
-#         - [Exercise 9 - L_model_backward](#ex-9)
-#     - [6.4 - Update Parameters](#6-4)
-#         - [Exercise 10 - update_parameters](#ex-10)
-
-# <a name='1'></a>
-# ## 1 - Packages
-# 
-# First, import all the packages you'll need during this assignment. 
-# 
-# - [numpy](www.numpy.org) is the main package for scientific computing with Python.
-# - [matplotlib](http://matplotlib.org) is a library to plot graphs in Python.
-# - dnn_utils provides some necessary functions for this notebook.
-# - testCases provides some test cases to assess the correctness of your functions
-# - np.random.seed(1) is used to keep all the random function calls consistent. It helps grade your work. Please don't change the seed! 
-
-# In[3]:
-
-
 import numpy as np
 import h5py
 import matplotlib.pyplot as plt
@@ -84,13 +5,6 @@ from testCases import *
 from dnn_utils import sigmoid, sigmoid_backward, relu, relu_backward
 from public_tests import *
 
-get_ipython().run_line_magic('matplotlib', 'inline')
-plt.rcParams['figure.figsize'] = (5.0, 4.0) # set default size of plots
-plt.rcParams['image.interpolation'] = 'nearest'
-plt.rcParams['image.cmap'] = 'gray'
-
-get_ipython().run_line_magic('load_ext', 'autoreload')
-get_ipython().run_line_magic('autoreload', '2')
 
 np.random.seed(1)
 
@@ -190,10 +104,10 @@ def initialize_parameters(n_x, n_h, n_y):
 
 parameters = initialize_parameters(3,2,1)
 
-print("W1 = " + str(parameters["W1"]))
-print("b1 = " + str(parameters["b1"]))
-print("W2 = " + str(parameters["W2"]))
-print("b2 = " + str(parameters["b2"]))
+# sprint("W1 = " + str(parameters["W1"]))
+# sprint("b1 = " + str(parameters["b1"]))
+# sprint("W2 = " + str(parameters["W2"]))
+# sprint("b2 = " + str(parameters["b2"]))
 
 initialize_parameters_test(initialize_parameters)
 
@@ -341,10 +255,10 @@ def initialize_parameters_deep(layer_dims):
 
 parameters = initialize_parameters_deep([5,4,3])
 
-print("W1 = " + str(parameters["W1"]))
-print("b1 = " + str(parameters["b1"]))
-print("W2 = " + str(parameters["W2"]))
-print("b2 = " + str(parameters["b2"]))
+# sprint("W1 = " + str(parameters["W1"]))
+# sprint("b1 = " + str(parameters["b1"]))
+# sprint("W2 = " + str(parameters["W2"]))
+# sprint("b2 = " + str(parameters["b2"]))
 
 initialize_parameters_deep_test(initialize_parameters_deep)
 
@@ -428,7 +342,7 @@ def linear_forward(A, W, b):
 
 t_A, t_W, t_b = linear_forward_test_case()
 t_Z, t_linear_cache = linear_forward(t_A, t_W, t_b)
-print("Z = " + str(t_Z))
+# sprint("Z = " + str(t_Z))
 
 linear_forward_test(linear_forward)
 
@@ -509,10 +423,10 @@ def linear_activation_forward(A_prev, W, b, activation):
 t_A_prev, t_W, t_b = linear_activation_forward_test_case()
 
 t_A, t_linear_activation_cache = linear_activation_forward(t_A_prev, t_W, t_b, activation = "sigmoid")
-print("With sigmoid: A = " + str(t_A))
+# sprint("With sigmoid: A = " + str(t_A))
 
 t_A, t_linear_activation_cache = linear_activation_forward(t_A_prev, t_W, t_b, activation = "relu")
-print("With ReLU: A = " + str(t_A))
+# sprint("With ReLU: A = " + str(t_A))
 
 linear_activation_forward_test(linear_activation_forward)
 
@@ -598,7 +512,7 @@ def L_model_forward(X, parameters):
 t_X, t_parameters = L_model_forward_test_case_2hidden()
 t_AL, t_caches = L_model_forward(t_X, t_parameters)
 
-print("AL = " + str(t_AL))
+# sprint("AL = " + str(t_AL))
 
 L_model_forward_test(L_model_forward)
 
@@ -659,7 +573,7 @@ def compute_cost(AL, Y):
 t_Y, t_AL = compute_cost_test_case()
 t_cost = compute_cost(t_AL, t_Y)
 
-print("Cost: " + str(t_cost))
+# sprint("Cost: " + str(t_cost))
 
 compute_cost_test(compute_cost)
 
@@ -713,14 +627,14 @@ compute_cost_test(compute_cost)
 
 A = np.array([[1, 2], [3, 4]])
 
-print('axis=1 and keepdims=True')
-print(np.sum(A, axis=1, keepdims=True))
-print('axis=1 and keepdims=False')
-print(np.sum(A, axis=1, keepdims=False))
-print('axis=0 and keepdims=True')
-print(np.sum(A, axis=0, keepdims=True))
-print('axis=0 and keepdims=False')
-print(np.sum(A, axis=0, keepdims=False))
+# sprint('axis=1 and keepdims=True')
+# sprint(np.sum(A, axis=1, keepdims=True))
+# sprint('axis=1 and keepdims=False')
+# sprint(np.sum(A, axis=1, keepdims=False))
+# sprint('axis=0 and keepdims=True')
+# sprint(np.sum(A, axis=0, keepdims=True))
+# sprint('axis=0 and keepdims=False')
+# sprint(np.sum(A, axis=0, keepdims=False))
 
 
 # <a name='6-1'></a>
@@ -791,9 +705,9 @@ def linear_backward(dZ, cache):
 t_dZ, t_linear_cache = linear_backward_test_case()
 t_dA_prev, t_dW, t_db = linear_backward(t_dZ, t_linear_cache)
 
-print("dA_prev: " + str(t_dA_prev))
-print("dW: " + str(t_dW))
-print("db: " + str(t_db))
+# sprint("dA_prev: " + str(t_dA_prev))
+# sprint("dW: " + str(t_dW))
+# sprint("db: " + str(t_db))
 
 linear_backward_test(linear_backward)
 
@@ -887,14 +801,14 @@ def linear_activation_backward(dA, cache, activation):
 t_dAL, t_linear_activation_cache = linear_activation_backward_test_case()
 
 t_dA_prev, t_dW, t_db = linear_activation_backward(t_dAL, t_linear_activation_cache, activation = "sigmoid")
-print("With sigmoid: dA_prev = " + str(t_dA_prev))
-print("With sigmoid: dW = " + str(t_dW))
-print("With sigmoid: db = " + str(t_db))
+# sprint("With sigmoid: dA_prev = " + str(t_dA_prev))
+# sprint("With sigmoid: dW = " + str(t_dW))
+# sprint("With sigmoid: db = " + str(t_db))
 
 t_dA_prev, t_dW, t_db = linear_activation_backward(t_dAL, t_linear_activation_cache, activation = "relu")
-print("With relu: dA_prev = " + str(t_dA_prev))
-print("With relu: dW = " + str(t_dW))
-print("With relu: db = " + str(t_db))
+# sprint("With relu: dA_prev = " + str(t_dA_prev))
+# sprint("With relu: dW = " + str(t_dW))
+# sprint("With relu: db = " + str(t_db))
 
 linear_activation_backward_test(linear_activation_backward)
 
@@ -1018,12 +932,12 @@ def L_model_backward(AL, Y, caches):
 t_AL, t_Y_assess, t_caches = L_model_backward_test_case()
 grads = L_model_backward(t_AL, t_Y_assess, t_caches)
 
-print("dA0 = " + str(grads['dA0']))
-print("dA1 = " + str(grads['dA1']))
-print("dW1 = " + str(grads['dW1']))
-print("dW2 = " + str(grads['dW2']))
-print("db1 = " + str(grads['db1']))
-print("db2 = " + str(grads['db2']))
+# sprint("dA0 = " + str(grads['dA0']))
+# sprint("dA1 = " + str(grads['dA1']))
+# sprint("dW1 = " + str(grads['dW1']))
+# sprint("dW2 = " + str(grads['dW2']))
+# sprint("db1 = " + str(grads['db1']))
+# sprint("db2 = " + str(grads['db2']))
 
 L_model_backward_test(L_model_backward)
 
@@ -1107,10 +1021,10 @@ def update_parameters(params, grads, learning_rate):
 t_parameters, grads = update_parameters_test_case()
 t_parameters = update_parameters(t_parameters, grads, 0.1)
 
-print ("W1 = "+ str(t_parameters["W1"]))
-print ("b1 = "+ str(t_parameters["b1"]))
-print ("W2 = "+ str(t_parameters["W2"]))
-print ("b2 = "+ str(t_parameters["b2"]))
+#print ("W1 = "+ str(t_parameters["W1"]))
+#print ("b1 = "+ str(t_parameters["b1"]))
+#print ("W2 = "+ str(t_parameters["W2"]))
+#print ("b2 = "+ str(t_parameters["b2"]))
 
 update_parameters_test(update_parameters)
 

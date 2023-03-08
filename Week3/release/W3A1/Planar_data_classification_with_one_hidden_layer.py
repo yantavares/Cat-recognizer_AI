@@ -1,93 +1,11 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# # Planar data classification with one hidden layer
-# 
-# Welcome to your week 3 programming assignment! It's time to build your first neural network, which will have one hidden layer. Now, you'll notice a big difference between this model and the one you implemented previously using logistic regression.
-# 
-# By the end of this assignment, you'll be able to:
-# 
-# - Implement a 2-class classification neural network with a single hidden layer
-# - Use units with a non-linear activation function, such as tanh
-# - Compute the cross entropy loss
-# - Implement forward and backward propagation
-# 
-# ## Important Note on Submission to the AutoGrader
-# 
-# Before submitting your assignment to the AutoGrader, please make sure you are not doing the following:
-# 
-# 1. You have not added any _extra_ `print` statement(s) in the assignment.
-# 2. You have not added any _extra_ code cell(s) in the assignment.
-# 3. You have not changed any of the function parameters.
-# 4. You are not using any global variables inside your graded exercises. Unless specifically instructed to do so, please refrain from it and use the local variables instead.
-# 5. You are not changing the assignment code where it is not required, like creating _extra_ variables.
-# 
-# If you do any of the following, you will get something like, `Grader not found` (or similarly unexpected) error upon submitting your assignment. Before asking for help/debugging the errors in your assignment, check for these first. If this is the case, and you don't remember the changes you have made, you can get a fresh copy of the assignment by following these [instructions](https://www.coursera.org/learn/neural-networks-deep-learning/supplement/iLwon/h-ow-to-refresh-your-workspace).
-
-# ## Table of Contents
-# - [1 - Packages](#1)
-# - [2 - Load the Dataset](#2)
-#     - [Exercise 1](#ex-1)
-# - [3 - Simple Logistic Regression](#3)
-# - [4 - Neural Network model](#4)
-#     - [4.1 - Defining the neural network structure](#4-1)
-#         - [Exercise 2 - layer_sizes](#ex-2)
-#     - [4.2 - Initialize the model's parameters](#4-2)
-#         - [Exercise 3 - initialize_parameters](#ex-3)
-#     - [4.3 - The Loop](#4-3)
-#         - [Exercise 4 - forward_propagation](#ex-4)
-#     - [4.4 - Compute the Cost](#4-4)
-#         - [Exercise 5 - compute_cost](#ex-5)
-#     - [4.5 - Implement Backpropagation](#4-5)
-#         - [Exercise 6 - backward_propagation](#ex-6)
-#     - [4.6 - Update Parameters](#4-6)
-#         - [Exercise 7 - update_parameters](#ex-7)
-#     - [4.7 - Integration](#4-7)
-#         - [Exercise 8 - nn_model](#ex-8)
-# - [5 - Test the Model](#5)
-#     - [5.1 - Predict](#5-1)
-#         - [Exercise 9 - predict](#ex-9)
-#     - [5.2 - Test the Model on the Planar Dataset](#5-2)
-# - [6 - Tuning hidden layer size (optional/ungraded exercise)](#6)
-# - [7- Performance on other datasets](#7)
-
-# <a name='1'></a>
-# # 1 - Packages
-# 
-# First import all the packages that you will need during this assignment.
-# 
-# - [numpy](https://www.numpy.org/) is the fundamental package for scientific computing with Python.
-# - [sklearn](http://scikit-learn.org/stable/) provides simple and efficient tools for data mining and data analysis. 
-# - [matplotlib](http://matplotlib.org) is a library for plotting graphs in Python.
-# - testCases provides some test examples to assess the correctness of your functions
-# - planar_utils provide various useful functions used in this assignment
-
-# In[2]:
-
-
-# Package imports
 import numpy as np
 import copy
 import matplotlib.pyplot as plt
 from testCases_v2 import *
 from public_tests import *
-import sklearn
 import sklearn.datasets
 import sklearn.linear_model
 from planar_utils import plot_decision_boundary, sigmoid, load_planar_dataset, load_extra_datasets
-
-get_ipython().run_line_magic('matplotlib', 'inline')
-
-get_ipython().run_line_magic('load_ext', 'autoreload')
-get_ipython().run_line_magic('autoreload', '2')
-
-
-# <a name='2'></a>
-# # 2 - Load the Dataset 
-# 
-# 
-
-# In[3]:
 
 
 X, Y = load_planar_dataset()
@@ -99,7 +17,7 @@ X, Y = load_planar_dataset()
 
 
 # Visualize the data:
-plt.scatter(X[0, :], X[1, :], c=Y, s=40, cmap=plt.cm.Spectral);
+# plt.scatter(X[0, :], X[1, :], c=Y, s=40, cmap=# plt.cm.Spectral);
 
 
 # You have:
@@ -130,9 +48,9 @@ shape_Y = Y.shape
 m = X.shape[1]
 # YOUR CODE ENDS HERE
 
-print ('The shape of X is: ' + str(shape_X))
-print ('The shape of Y is: ' + str(shape_Y))
-print ('I have m = %d training examples!' % (m))
+# print ('The shape of X is: ' + str(shape_X))
+# print ('The shape of Y is: ' + str(shape_Y))
+# print ('I have m = %d training examples!' % (m))
 
 
 # **Expected Output**:
@@ -161,8 +79,8 @@ print ('I have m = %d training examples!' % (m))
 
 
 # Train the logistic regression classifier
-clf = sklearn.linear_model.LogisticRegressionCV();
-clf.fit(X.T, Y.T);
+# clf = sklearn.linear_model.LogisticRegressionCV();
+# clf.fit(X.T, Y.T);
 
 
 # You can now plot the decision boundary of these models! Run the code below.
@@ -171,13 +89,13 @@ clf.fit(X.T, Y.T);
 
 
 # Plot the decision boundary for logistic regression
-plot_decision_boundary(lambda x: clf.predict(x), X, Y)
-plt.title("Logistic Regression")
+# plot_decision_boundary(lambda x: clf.predict(x), X, Y)
+# # plt.title("Logistic Regression")
 
-# Print accuracy
-LR_predictions = clf.predict(X.T)
-print ('Accuracy of logistic regression: %d ' % float((np.dot(Y,LR_predictions) + np.dot(1-Y,1-LR_predictions))/float(Y.size)*100) +
-       '% ' + "(percentage of correctly labelled datapoints)")
+# # Print accuracy
+# LR_predictions = clf.predict(X.T)
+# print ('Accuracy of logistic regression: %d ' % float((np.dot(Y,LR_predictions) + np.dot(1-Y,1-LR_predictions))/float(Y.size)*100) +
+#      '% ' + "(percentage of correctly labelled datapoints)")
 
 
 # **Expected Output**:
@@ -270,9 +188,9 @@ def layer_sizes(X, Y):
 
 t_X, t_Y = layer_sizes_test_case()
 (n_x, n_h, n_y) = layer_sizes(t_X, t_Y)
-print("The size of the input layer is: n_x = " + str(n_x))
-print("The size of the hidden layer is: n_h = " + str(n_h))
-print("The size of the output layer is: n_y = " + str(n_y))
+# print("The size of the input layer is: n_x = " + str(n_x))
+# print("The size of the hidden layer is: n_h = " + str(n_h))
+# print("The size of the output layer is: n_y = " + str(n_y))
 
 layer_sizes_test(layer_sizes)
 
@@ -349,10 +267,10 @@ np.random.seed(2)
 n_x, n_h, n_y = initialize_parameters_test_case()
 parameters = initialize_parameters(n_x, n_h, n_y)
 
-print("W1 = " + str(parameters["W1"]))
-print("b1 = " + str(parameters["b1"]))
-print("W2 = " + str(parameters["W2"]))
-print("b2 = " + str(parameters["b2"]))
+# print("W1 = " + str(parameters["W1"]))
+# print("b1 = " + str(parameters["b1"]))
+# print("W2 = " + str(parameters["W2"]))
+# print("b2 = " + str(parameters["b2"]))
 
 initialize_parameters_test(initialize_parameters)
 
@@ -456,7 +374,7 @@ def forward_propagation(X, parameters):
 
 t_X, parameters = forward_propagation_test_case()
 A2, cache = forward_propagation(t_X, parameters)
-print("A2 = " + str(A2))
+# print("A2 = " + str(A2))
 
 forward_propagation_test(forward_propagation)
 
@@ -539,7 +457,7 @@ def compute_cost(A2, Y):
 
 A2, t_Y = compute_cost_test_case()
 cost = compute_cost(A2, t_Y)
-print("cost = " + str(compute_cost(A2, t_Y)))
+# print("cost = " + str(compute_cost(A2, t_Y)))
 
 compute_cost_test(compute_cost)
 
@@ -645,10 +563,10 @@ def backward_propagation(parameters, cache, X, Y):
 parameters, cache, t_X, t_Y = backward_propagation_test_case()
 
 grads = backward_propagation(parameters, cache, t_X, t_Y)
-print ("dW1 = "+ str(grads["dW1"]))
-print ("db1 = "+ str(grads["db1"]))
-print ("dW2 = "+ str(grads["dW2"]))
-print ("db2 = "+ str(grads["db2"]))
+# print ("dW1 = "+ str(grads["dW1"]))
+# print ("db1 = "+ str(grads["db1"]))
+# print ("dW2 = "+ str(grads["dW2"]))
+# print ("db2 = "+ str(grads["db2"]))
 
 backward_propagation_test(backward_propagation)
 
@@ -738,10 +656,10 @@ def update_parameters(parameters, grads, learning_rate = 1.2):
 parameters, grads = update_parameters_test_case()
 parameters = update_parameters(parameters, grads)
 
-print("W1 = " + str(parameters["W1"]))
-print("b1 = " + str(parameters["b1"]))
-print("W2 = " + str(parameters["W2"]))
-print("b2 = " + str(parameters["b2"]))
+# print("W1 = " + str(parameters["W1"]))
+# print("b1 = " + str(parameters["b1"]))
+# print("W2 = " + str(parameters["W2"]))
+# print("b2 = " + str(parameters["b2"]))
 
 update_parameters_test(update_parameters)
 
@@ -823,8 +741,8 @@ def nn_model(X, Y, n_h, num_iterations = 10000, print_cost=False):
         # YOUR CODE ENDS HERE
         
         # Print the cost every 1000 iterations
-        if print_cost and i % 1000 == 0:
-            print ("Cost after iteration %i: %f" %(i, cost))
+        # if print_cost and i % 1000 == 0:
+            # print ("Cost after iteration %i: %f" %(i, cost))
 
     return parameters
 
@@ -911,7 +829,7 @@ def predict(parameters, X):
 parameters, t_X = predict_test_case()
 
 predictions = predict(parameters, t_X)
-print("Predictions: " + str(predictions))
+# print("Predictions: " + str(predictions))
 
 predict_test(predict)
 
@@ -936,7 +854,7 @@ parameters = nn_model(X, Y, n_h = 4, num_iterations = 10000, print_cost=True)
 
 # Plot the decision boundary
 plot_decision_boundary(lambda x: predict(parameters, x.T), X, Y)
-plt.title("Decision Boundary for hidden layer size " + str(4))
+# plt.title("Decision Boundary for hidden layer size " + str(4))
 
 
 # In[48]:
@@ -944,7 +862,7 @@ plt.title("Decision Boundary for hidden layer size " + str(4))
 
 # Print accuracy
 predictions = predict(parameters, X)
-print ('Accuracy: %d' % float((np.dot(Y, predictions.T) + np.dot(1 - Y, 1 - predictions.T)) / float(Y.size) * 100) + '%')
+# print ('Accuracy: %d' % float((np.dot(Y, predictions.T) + np.dot(1 - Y, 1 - predictions.T)) / float(Y.size) * 100) + '%')
 
 
 # **Expected Output**: 
@@ -980,11 +898,11 @@ print ('Accuracy: %d' % float((np.dot(Y, predictions.T) + np.dot(1 - Y, 1 - pred
 
 # This may take about 2 minutes to run
 
-plt.figure(figsize=(16, 32))
+# plt.figure(figsize=(16, 32))
 hidden_layer_sizes = [1, 2, 3, 4, 5, 20, 50]
 for i, n_h in enumerate(hidden_layer_sizes):
-    plt.subplot(5, 2, i+1)
-    plt.title('Hidden Layer of size %d' % n_h)
+    # plt.subplot(5, 2, i+1)
+    # plt.title('Hidden Layer of size %d' % n_h)
     parameters = nn_model(X, Y, n_h, num_iterations = 5000)
     plot_decision_boundary(lambda x: predict(parameters, x.T), X, Y)
     predictions = predict(parameters, X)
@@ -1032,7 +950,7 @@ if dataset == "blobs":
     Y = Y%2
 
 # Visualize the data
-plt.scatter(X[0, :], X[1, :], c=Y, s=40, cmap=plt.cm.Spectral);
+# plt.scatter(X[0, :], X[1, :], c=Y, s=40, cmap=# plt.cm.Spectral);
 
 
 # **References**:
