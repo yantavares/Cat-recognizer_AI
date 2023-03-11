@@ -626,7 +626,7 @@ print_mislabeled_images(classes, test_x, test_y, pred_test)
 
 
 ## START CODE HERE ##
-my_image = "guigo.jpeg" # change this to the name of your image file 
+my_image = "gi.jpeg" # change this to the name of your image file 
 my_label_y = [0] # the true class of your image (1 -> cat, 0 -> non-cat)
 ## END CODE HERE ##
 
